@@ -27,6 +27,7 @@ class Game:
             print(f"The winner is the {self.T2.name}.")
         
         
+        
 
 
 class Team:
@@ -43,7 +44,6 @@ class Team:
         self.strength = strength
     
     def update_record(self, result):
-        print("It happened")
         if result == 'W':
             self.W += 1
         elif result == 'L':
@@ -54,14 +54,13 @@ class Team:
         self.GP = self.W + self.L + self.OTL
         self.P = self.W * 2 + self.OTL
             
-
-
 class Season:
     def __init__(self, year):
         self.year = year
         self.get_season_data()
         self.create_teams()
-        self.create_standings()
+        self.update_standings()
+        self.simulate_season()
 
     def get_season_data(self):
         # Parse the CSV
@@ -85,8 +84,23 @@ class Season:
         for team in teams:
             self.active_teams[team] = (Team(team, 100))
 
-    def create_standings(self):
-        self.standings = pd.DataFrame()
+    def update_standings(self):
+        columns = ["Team", "GP", "W", "L", "OTL", "P"]
+        self.standings = pd.DataFrame(columns=columns)
+        for key, value in self.active_teams.items():
+            new_row = {
+                "Team": value.ab,
+                "GP" : value.GP,
+                "W" : value.W,
+                "L" : value.L,
+                "OTL" : value.OTL,
+                "P" : value.P
+            }
+            self. standings = self.standings.append(new_row, ignore_index=True)
+    
+    def simulate_season(self):
+        pass
+
         
             
         
@@ -94,20 +108,10 @@ class Season:
         
 
 def main():
-    # t1 = Team('TOR', 20)
-    # t2 = Team('BOS', 20)
 
     year = Season(2022)
-    #for value in year.active_teams.items():
-        #print(value['name'])
-        #if t.division == 'Atlantic':
-         #   print(t.name)
-    
-    #print(year.active_teams['TOR'].name)
     g = Game(year.active_teams['TOR'], year.active_teams['BOS'])
-    #print(year.active_teams)
-    # for key, team in year.active_teams.items():
-    #     #print(value.city)
-    #     print(f"{team.ab}: {team.P} points.")
+    year.update_standings()
+    print(year.standings)
 
 main()
