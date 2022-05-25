@@ -7,7 +7,7 @@ class Game:
         self.T1 = Team1
         self.T2 = Team2
         self.result = random.randint(1,100)
-        print(f"-----   We have a matchup between teams: {self.T1.city} and {self.T2.city}   -----")
+        #print(f"-----   We have a matchup between teams: {self.T1.city} and {self.T2.city}   -----")
         self.T1Prob = (Team1.strength / (Team1.strength + Team2.strength)) * 100
         # print(f"Chance of {self.T1.ab} winning: {round(self.T1Prob)}%")
         # print(f"Chance of {self.T2.ab} winning: {round((100-self.T1Prob))}%")
@@ -19,17 +19,13 @@ class Game:
         if self.result < self.T1Prob:
             self.T1.update_record("W")
             self.T2.update_record("L")
-            print(f"The winner is the {self.T1.name}.")
+            #print(f"The winner is the {self.T1.name}.")
         # Team 2 wins in regulation
         else:
             self.T1.update_record("L")
             self.T2.update_record("W")
-            print(f"The winner is the {self.T2.name}.")
+            #print(f"The winner is the {self.T2.name}.")
         
-        
-        
-
-
 class Team:
     def __init__(self, team, strength):
         self.ab = team
@@ -60,7 +56,7 @@ class Season:
         self.get_season_data()
         self.create_teams()
         self.update_standings()
-        self.simulate_season()
+        #self.simulate_season()
 
     def get_season_data(self):
         # Parse the CSV
@@ -99,19 +95,14 @@ class Season:
             self. standings = self.standings.append(new_row, ignore_index=True)
     
     def simulate_season(self):
-        pass
-
-        
-            
-        
-        
-        
+        for index, row in self.schedule.iterrows():
+            Game(self.active_teams[row['Home']], self.active_teams[row['Away']])
 
 def main():
-
     year = Season(2022)
-    g = Game(year.active_teams['TOR'], year.active_teams['BOS'])
+    year.simulate_season()
     year.update_standings()
-    print(year.standings)
+    print(year.standings.sort_values(by=['P'], ascending=False).to_string(index=False))
+    #print(year.standings)
 
 main()

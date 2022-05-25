@@ -132,8 +132,8 @@ teams = {
 
     'STL': 
     {
-        'name' : 'St Louis Blues',
-        'city': 'St Louis', 
+        'name' : 'St. Louis Blues',
+        'city': 'St. Louis', 
         'division': 'Central'
     },
 
@@ -196,7 +196,7 @@ teams = {
 
     'VGK': 
     {
-        'name' : 'Las Vegas Golden Knights',
+        'name' : 'Vegas Golden Knights',
         'city': 'Las Vegas', 
         'division': 'Pacific'
     },
