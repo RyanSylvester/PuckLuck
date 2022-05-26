@@ -92,7 +92,10 @@ class Season:
                 "OTL" : value.OTL,
                 "P" : value.P
             }
-            self. standings = self.standings.append(new_row, ignore_index=True)
+            self.standings = self.standings.append(new_row, ignore_index=True)
+    
+    def save_standings(self):
+        self.standings.to_json('puckluck/src/backend_data/standings.json', orient='records')
     
     def simulate_season(self):
         for index, row in self.schedule.iterrows():
@@ -103,6 +106,7 @@ def main():
     year.simulate_season()
     year.update_standings()
     print(year.standings.sort_values(by=['P'], ascending=False).to_string(index=False))
+    year.save_standings()
     #print(year.standings)
 
 main()
